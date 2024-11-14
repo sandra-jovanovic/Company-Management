@@ -1,6 +1,4 @@
 package com.worktrack.controller;
-import com.worktrack.dto.EmployeeDto;
-import com.worktrack.exception.UserNotFoundException;
 import com.worktrack.model.Equipment;
 import com.worktrack.service.EquipmentService;
 import jakarta.validation.Valid;

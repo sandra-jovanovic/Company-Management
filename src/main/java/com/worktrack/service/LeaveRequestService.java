@@ -6,7 +6,6 @@ import com.worktrack.model.LeaveRequest;
 import com.worktrack.model.User;
 import com.worktrack.repository.LeaveRequestRepository;
 import com.worktrack.repository.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

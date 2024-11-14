@@ -1,17 +1,13 @@
 package com.worktrack.controller;
 import com.worktrack.dto.EmployeeDto;
-import com.worktrack.exception.InvalidInputException;
 import com.worktrack.exception.UserNotFoundException;
 import com.worktrack.service.UserService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.View;
-
 import java.util.List;
 
 @RestController
@@ -20,8 +16,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private View error;
 
     @GetMapping
     public List<EmployeeDto> findAllEmployees() {

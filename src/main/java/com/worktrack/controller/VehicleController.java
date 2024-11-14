@@ -1,6 +1,5 @@
 package com.worktrack.controller;
 
-import com.worktrack.model.Equipment;
 import com.worktrack.model.Vehicle;
 import com.worktrack.service.VehicleService;
 import jakarta.validation.Valid;

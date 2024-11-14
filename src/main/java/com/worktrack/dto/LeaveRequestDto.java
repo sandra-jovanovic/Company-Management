@@ -15,7 +15,6 @@ public class LeaveRequestDto {
     @NotNull
     private LocalDate endDate;
 
-
     private EmployeeDto employeeDto;
 
     private String feedback;

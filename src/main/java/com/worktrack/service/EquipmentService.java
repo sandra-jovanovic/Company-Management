@@ -1,11 +1,8 @@
 package com.worktrack.service;
-import com.worktrack.dto.EmployeeDto;
 import com.worktrack.model.Company;
 import com.worktrack.model.Equipment;
-import com.worktrack.model.User;
 import com.worktrack.repository.CompanyRepository;
 import com.worktrack.repository.EquipmentRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

@@ -1,7 +1,5 @@
 package com.worktrack.service;
-import com.worktrack.exception.UserNotFoundException;
 import com.worktrack.model.Company;
-import com.worktrack.model.User;
 import com.worktrack.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,14 @@ import java.util.List;
 
         // Endpoint for submitting a leave request
         @PostMapping("/submit")
-        public ResponseEntity<LeaveRequestDto> submit(@Valid @RequestBody LeaveRequestDto leaveRequestDto){
+        public ResponseEntity<?> submit(@Valid @RequestBody LeaveRequestDto leaveRequestDto, BindingResult bindingResult){
+            if (bindingResult.hasErrors()) {
+                StringBuilder errorMessages = new StringBuilder();
+                bindingResult.getAllErrors().forEach(error -> {
+                    errorMessages.append(error.getDefaultMessage()).append("\n");
+                });
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages.toString());
+            }
             try{
                 LeaveRequestDto requestDto = leaveRequestService.submit(leaveRequestDto);
                 return ResponseEntity.status(HttpStatus.CREATED).body(requestDto);
@@ -56,12 +64,24 @@ import java.util.List;
         }
 
         @DeleteMapping("/{id}")
-        public void delete(@PathVariable("id") Long id) {
-            leaveRequestService.delete(id);
+        public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+            try {
+                leaveRequestService.delete(id);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Leave request deleted.");
+            } catch (RuntimeException e) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Leave request not found.");
+            }
         }
 
         @PutMapping("/{id}")
-        public ResponseEntity<LeaveRequestDto> update(@PathVariable Long id,@Valid @RequestBody LeaveRequestDto leaveRequestDto){
+        public ResponseEntity<?> update(@PathVariable Long id,@Valid @RequestBody LeaveRequestDto leaveRequestDto, BindingResult bindingResult){
+            if (bindingResult.hasErrors()) {
+                StringBuilder errorMessages = new StringBuilder();
+                bindingResult.getAllErrors().forEach(error -> {
+                    errorMessages.append(error.getDefaultMessage()).append("\n");
+                });
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages.toString());
+            }
             try {
                 LeaveRequestDto updatedLeaveRequest = leaveRequestService.update(id, leaveRequestDto);
                 return new ResponseEntity<>(updatedLeaveRequest, HttpStatus.OK);
@@ -71,12 +91,12 @@ import java.util.List;
         }
 
         @GetMapping("/{id}")
-        public ResponseEntity<LeaveRequestDto> getById(@PathVariable("id") Long id){
+        public ResponseEntity<?> getById(@PathVariable("id") Long id){
             try{
                 LeaveRequestDto leaveRequestDto = leaveRequestService.findById(id);
                 return new ResponseEntity<>(leaveRequestDto, HttpStatus.OK);
             } catch (RuntimeException e){
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Id not found", HttpStatus.NOT_FOUND);
             }
         }
 
