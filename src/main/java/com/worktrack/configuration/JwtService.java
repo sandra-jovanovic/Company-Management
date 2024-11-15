@@ -1,5 +1,6 @@
 package com.worktrack.configuration;
 
+import com.worktrack.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -36,6 +37,11 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
+
+//        //dodavanje role
+        User user = (User) userDetails;
+        extraClaims.put("role", user.getRole().name());
+
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import java.util.List;
         private LeaveRequestService leaveRequestService;
 
         // Endpoint for submitting a leave request
+        @PreAuthorize("hasRole('EMPLOYEE')")
         @PostMapping("/submit")
         public ResponseEntity<?> submit(@Valid @RequestBody LeaveRequestDto leaveRequestDto, BindingResult bindingResult){
             if (bindingResult.hasErrors()) {
@@ -37,6 +39,7 @@ import java.util.List;
             }
         }
 
+        @PreAuthorize("hasRole('MANAGER')")
         @PutMapping("/{id}/approve")
         public ResponseEntity<LeaveRequestDto> approveLeaveRequest(@PathVariable("id") Long id){
             try{
@@ -47,6 +50,7 @@ import java.util.List;
             }
         }
 
+        @PreAuthorize("hasRole('MANAGER')")
         @PutMapping("/{id}/reject")
         public ResponseEntity<LeaveRequestDto> rejectLeaveRequest(@PathVariable("id") Long id){
             try{
@@ -57,12 +61,14 @@ import java.util.List;
             }
         }
 
+        @PreAuthorize("hasRole('MANAGER')")
         @GetMapping
         public ResponseEntity<List<LeaveRequestDto>> getAllLeaveRequests() {
             List<LeaveRequestDto> leaveRequestDtos = leaveRequestService.getAll();
             return ResponseEntity.ok(leaveRequestDtos);
         }
 
+        @PreAuthorize("hasRole('MANAGER')")
         @DeleteMapping("/{id}")
         public ResponseEntity<?> delete(@PathVariable("id") Long id) {
             try {
@@ -73,6 +79,7 @@ import java.util.List;
             }
         }
 
+        @PreAuthorize("hasRole('EMPLOYEE')")
         @PutMapping("/{id}")
         public ResponseEntity<?> update(@PathVariable Long id,@Valid @RequestBody LeaveRequestDto leaveRequestDto, BindingResult bindingResult){
             if (bindingResult.hasErrors()) {

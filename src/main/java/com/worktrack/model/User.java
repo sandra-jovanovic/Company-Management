@@ -80,6 +80,11 @@ public class User implements UserDetails {
         EMPLOYEE
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")  // Spoljni ključ koji povezuje korisnika sa firmom
     private Company company;

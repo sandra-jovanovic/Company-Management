@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -17,11 +18,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping
     public List<EmployeeDto> findAllEmployees() {
         return userService.findAllEmployees();
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id){
         try{
@@ -33,6 +36,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") long id, @Valid @RequestBody EmployeeDto employeeDto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -53,6 +57,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         try{
